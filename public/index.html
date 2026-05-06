@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Random API</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Random API</h1>
+    <p>Returns a random line from the dataset on every request.</p>
+
+    <h2>Endpoint</h2>
+    <code>GET /api/random</code>
+
+    <h2>Example Response</h2>
+    <pre>{ "id": 3, "text": "All that glitters is not gold." }</pre>
+
+    <h2>Try it</h2>
+    <button onclick="fetchRandom()">Get Random</button>
+    <pre id="result">—</pre>
+
+    <script>
+        async function fetchRandom() {
+            const res = await fetch('/api/random');
+            const data = await res.json();
+            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+
+</html>
