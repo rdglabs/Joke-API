@@ -43,8 +43,8 @@
     <script>
         async function fetchRandom() {
             const res = await fetch('/api/random');
-            const data = await res.json();
-            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            const text = await res.text(); // ← change .json() to .text()
+            document.getElementById('result').textContent = text;
         }
     </script>
 </body>
