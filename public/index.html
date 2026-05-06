@@ -41,11 +41,17 @@
     <pre id="result">—</pre>
 
     <script>
-        async function fetchRandom() {
+        <script>
+    async function fetchRandom() {
+        try {
             const res = await fetch('/api/random');
-            const data = await res.json();
-            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            const text = await res.text();
+            document.getElementById('result').textContent = text;
+        } catch (err) {
+            document.getElementById('result').textContent = 'Error: ' + err.message;
         }
+    }
+</script>
     </script>
 </body>
 
