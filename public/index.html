@@ -1,58 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Random API</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 600px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
-
-        code {
-            background: #f4f4f4;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        pre {
-            background: #f4f4f4;
-            padding: 16px;
-            border-radius: 8px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Joke API</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+    pre  { background: #f4f4f4; padding: 16px; border-radius: 8px; white-space: pre-wrap; }
+    .buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    button { padding: 8px 16px; font-size: 1rem; cursor: pointer; }
+    button.active { background: #0051c3; color: white; border-color: #0051c3; }
+    #error { color: red; }
+  </style>
 </head>
-
 <body>
-    <h1>Random API</h1>
-    <p>Returns a random line from the dataset on every request.</p>
+  <h1>Joke API</h1>
+  <p>Returns a random joke — won't repeat the last 5.</p>
 
-    <h2>Endpoint</h2>
-    <code>GET /api/random</code>
+  <h2>Category</h2>
+  <div class="buttons">
+    <button onclick="setCategory('all')" id="btn-all" class="active">All</button>
+    <button onclick="setCategory('dad')" id="btn-dad">Dad Jokes</button>
+    <button onclick="setCategory('science')" id="btn-science">Science</button>
+    <button onclick="setCategory('tech')" id="btn-tech">Tech</button>
+    <button onclick="setCategory('math')" id="btn-math">Math</button>
+  </div>
 
-    <h2>Example Response</h2>
-    <pre>{ "id": 3, "text": "All that glitters is not gold." }</pre>
+  <h2>Endpoint</h2>
+  <code id="endpoint">GET /api/random</code>
 
-    <h2>Try it</h2>
-    <button onclick="fetchRandom()">Get Random</button>
-    <pre id="result">—</pre>
+  <h2>Try it</h2>
+  <button onclick="fetchRandom()">Get Random Joke</button>
+  <pre id="result">Click the button...</pre>
+  <p id="error"></p>
 
-    <script>
-        async function fetchRandom() {
-          document.getElementById('error').textContent = '';
-          try {
-            const res = await fetch('/api/random');
-            if (!res.ok) throw new Error('Server error: ' + res.status);
-            const text = await res.text();
-            document.getElementById('result').textContent = text;
-          } catch (err) {
-            document.getElementById('error').textContent = 'Error: ' + err.message;
-          }
-        }
-      </script>
+  <script>
+    let currentCategory = 'all';
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.buttons button').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-' + cat).classList.add('active');
+      const endpoint = cat === 'all' ? '/api/random' : `/api/random?category=${cat}`;
+      document.getElementById('endpoint').textContent = 'GET ' + endpoint;
+    }
+
+    async function fetchRandom() {
+      document.getElementById('error').textContent = '';
+      try {
+        const url = currentCategory === 'all'
+          ? '/api/random'
+          : `/api/random?category=${currentCategory}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        const text = await res.text();
+        document.getElementById('result').textContent = text;
+      } catch (err) {
+        document.getElementById('error').textContent = 'Error: ' + err.message;
+      }
+    }
+  </script>
 </body>
-
 </html>

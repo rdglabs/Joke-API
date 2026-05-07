@@ -1,24 +1,40 @@
 import data from '../../data.json';
 
-const HISTORY_SIZE = 14;
-const KV_KEY = 'recent';
+const HISTORY_SIZE = 5;
 
-export async function onRequestGet({ env }) {
-  // Load history from KV
-  const stored = await env.API_History.get(KV_KEY);
+export async function onRequestGet({ request, env }) {
+  if (!env.API_History) {
+    return new Response('KV not bound', { status: 500 });
+  }
+
+  const url = new URL(request.url);
+  const category = url.searchParams.get('category') || 'all';
+
+  // Filter by category
+  const pool = category === 'all'
+    ? data
+    : data.filter(item => item.category === category);
+
+  if (pool.length === 0) {
+    return new Response('Unknown category', { status: 404 });
+  }
+
+  // History is tracked per category
+  const kvKey = `history:${category}`;
+  const stored = await env.API_History.get(kvKey);
   const history = stored ? JSON.parse(stored) : [];
 
   // Pick a joke not in history
-  const available = data.filter(item => !history.includes(item));
-  const pool = available.length > 0 ? available : data;
-  const item = pool[Math.floor(Math.random() * pool.length)];
+  const available = pool.filter(item => !history.includes(item.joke));
+  const source = available.length > 0 ? available : pool;
+  const item = source[Math.floor(Math.random() * source.length)];
 
   // Update history
-  history.push(item);
+  history.push(item.joke);
   if (history.length > HISTORY_SIZE) history.shift();
-  await env.API_History.put(KV_KEY, JSON.stringify(history));
+  await env.API_History.put(kvKey, JSON.stringify(history));
 
-  return new Response(item, {
+  return new Response(item.joke, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Access-Control-Allow-Origin': '*',
