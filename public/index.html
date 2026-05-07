@@ -41,18 +41,18 @@
     <pre id="result">—</pre>
 
     <script>
-        <script>
-    async function fetchRandom() {
-        try {
+        async function fetchRandom() {
+          document.getElementById('error').textContent = '';
+          try {
             const res = await fetch('/api/random');
+            if (!res.ok) throw new Error('Server error: ' + res.status);
             const text = await res.text();
             document.getElementById('result').textContent = text;
-        } catch (err) {
-            document.getElementById('result').textContent = 'Error: ' + err.message;
+          } catch (err) {
+            document.getElementById('error').textContent = 'Error: ' + err.message;
+          }
         }
-    }
-</script>
-    </script>
+      </script>
 </body>
 
 </html>
