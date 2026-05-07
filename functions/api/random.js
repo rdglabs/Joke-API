@@ -20,7 +20,7 @@ export async function onRequestGet({ env }) {
 
   return new Response(item, {
     headers: {
-      'Content-Type': 'text/plain',
+      'Content-Type': 'text/plain; charset=utf-8',
       'Access-Control-Allow-Origin': '*',
       'Cache-Control': 'no-store',
     },
