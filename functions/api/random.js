@@ -5,7 +5,7 @@ const KV_KEY = 'recent';
 
 export async function onRequestGet({ env }) {
   // Load history from KV
-  const stored = await env.JOKE_HISTORY.get(KV_KEY);
+  const stored = await env.API_History.get(KV_KEY);
   const history = stored ? JSON.parse(stored) : [];
 
   // Pick a joke not in history
@@ -16,7 +16,7 @@ export async function onRequestGet({ env }) {
   // Update history
   history.push(item);
   if (history.length > HISTORY_SIZE) history.shift();
-  await env.JOKE_HISTORY.put(KV_KEY, JSON.stringify(history));
+  await env.API_History.put(KV_KEY, JSON.stringify(history));
 
   return new Response(item, {
     headers: {

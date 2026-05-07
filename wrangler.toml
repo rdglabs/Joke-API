@@ -4,4 +4,4 @@ compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
 binding = "API_History"
-id = "github"
+id = "6f4474d25abc463f9db5bcaaad4ac6dc"
