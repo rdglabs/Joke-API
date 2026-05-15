@@ -74,4 +74,15 @@
     { "joke": "What did the ocean say to the beach? Nothing, it just waved.", "category": "dad" },
     { "joke": "I'm on a seafood diet. I see food and I eat it.", "category": "dad" },
     { "joke": "What do you call a sleeping dinosaur? A dino-snore.", "category": "dad" }
+    { "joke": "Greetings, fellow human!", "category": "business"},
+    { "joke": "I am not a robot, I am a unicorn!", "category": "business"},
+    { "joke": "I am not a robot, I am a business analyst!", "category": "business"},
+    { "joke": "I am not a robot, I am a project manager!", "category": "business"},
+    { "joke": "I am not a robot, I am a software developer!", "category": "business"},
+    { "joke": "I am not a robot, I am a data scientist!", "category": "business"},
+    { "joke": "I am not a robot, I am a product manager!", "category": "business"},
+    { "joke": "I am not a robot, I am a UX designer!", "category": "business"},
+    { "joke": "I am not a robot, I am a marketer!", "category": "business"},
+    { "joke": "I'm away from my desk, off to find the mythical creature called 'free time.", "category": "business"},
+    { "joke": "If you just think you need immediate assistance, I suggest deep breathing and reconsidering your life choices.", "category": "business"}
 ]
